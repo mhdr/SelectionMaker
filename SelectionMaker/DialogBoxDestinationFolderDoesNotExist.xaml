@@ -1,0 +1,48 @@
+﻿<Window x:Class="SelectionMaker.DialogBoxDestinationFolderDoesNotExist"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="Confirm Create" MinHeight="100" MinWidth="100" Height="120" Width="400"
+        ResizeMode="CanResizeWithGrip" ShowInTaskbar="False" WindowStartupLocation="CenterScreen" WindowStyle="ToolWindow"
+        Loaded="Window_Loaded" Background="LightGray">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="45"/>
+        </Grid.RowDefinitions>
+        
+        <StackPanel>
+            <TextBlock Name="TextBlockDestinationPath" Margin="10,5,10,7">
+                
+            </TextBlock>
+            
+            <TextBlock Name="TextBlockShowMSG" Margin="10,0">
+
+            </TextBlock>
+        </StackPanel>
+        
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            
+            <Button Width="70" Height="25" Grid.Column="0" IsDefault="True"
+                    Name="ButtonCreate" Content="Create" Click="ButtonCreate_Click">
+                <Button.ToolTip>
+                    <TextBlock>Create destination path</TextBlock>
+                </Button.ToolTip>
+            </Button>
+            <Button Width="70" Height="25" Grid.Column="1"
+                    Name="ButtonSelect" Content="Select" Click="ButtonSelect_Click">
+                <Button.ToolTip>
+                    <TextBlock>Select destination path</TextBlock>
+                </Button.ToolTip>
+            </Button>
+            <Button Width="70" Height="25" Grid.Column="2" IsCancel="True"
+                    Name="ButtonCancel" Click="ButtonCancel_Click" Content="Cancel">
+                
+            </Button>
+        </Grid>
+    </Grid>
+</Window>

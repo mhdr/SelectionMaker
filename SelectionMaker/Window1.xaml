@@ -1,0 +1,241 @@
+﻿<Window x:Class="SelectionMaker.Window1"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:cv="clr-namespace:SelectionMaker"
+    xmlns:wf="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
+    Title="Selection Maker" Height="600" Width="800" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded" Background="LightGray" Closing="Window_Closing" Activated="Window_Activated">
+    <Window.Resources>
+        <cv:VolumeConvertor x:Key="ConvertVolume"/>
+        <cv:PositionConverter x:Key="ConvertPosition"/>
+        <cv:ConvertPathToImage x:Key="ConvertToImage"/>
+        <cv:ConvertToFileName x:Key="ConvertToFileName"/>
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="25"/>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+
+            <StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="5">
+                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Left" FontWeight="Bold"
+                           Margin="10">Source Folder:</TextBlock>
+                    <TextBox Name="TextBoxSourceFolder" MinWidth="100" Width="150" VerticalAlignment="Center"
+                         HorizontalAlignment="Stretch"></TextBox>
+                    <Button Name="ButtonSourceFolder" Content="Browse" Margin="10"
+                        Width="70" Height="25" Click="ButtonSourceFolder_Click"></Button>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Margin="5">
+                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Left" FontWeight="Bold"
+                           Margin="10">Destination Folder:</TextBlock>
+                    <TextBox Name="TextBoxDestinationFolder" MinWidth="100" Width="150" VerticalAlignment="Center"
+                         HorizontalAlignment="Stretch"></TextBox>
+                    <Button Name="ButtonDestinationFolder" Content="Browse" Margin="10"
+                        Width="70" Height="25" Click="ButtonDestinationFolder_Click"></Button>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Margin="5">
+                    <TextBlock FontWeight="Bold" Margin="10" VerticalAlignment="Center">Seach SubFolders</TextBlock>
+                    <CheckBox Name="CheckBoxSearchSubFolder" VerticalAlignment="Center"></CheckBox>
+                    <!--<TextBlock FontWeight="Bold" Margin="40,0,10,0" VerticalAlignment="Center">Copy Async</TextBlock>
+                    <CheckBox Name="ChechBoxCopyAsync" VerticalAlignment="Center" Checked="ChechBoxCopyAsync_Checked">
+                        <CheckBox.ToolTip>
+                            <TextBlock>Copy several files concurrently</TextBlock>
+                        </CheckBox.ToolTip>
+                    </CheckBox>-->
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal">
+                    <Button Margin="60,10,20,10" Width="70" Height="25" Name="ButtonListFiles" Click="ButtonListFiles_Click">List</Button>
+                    <Button Margin="20,10" Width="70" Height="25" Name="ButtonCancel" Click="ButtonCancel_Click">Cancel</Button>
+                    <Button Margin="20,10" Width="70" Height="25" Name="ButtonClear" Click="ButtonClear_Click">Clear</Button>
+                </StackPanel>
+            </StackPanel>
+
+            <StackPanel Grid.Row="1" HorizontalAlignment="Center" Margin="0,20">
+                <Slider HorizontalAlignment="Stretch" Margin="20,5,20,0" Name="SliderMediaPosition" TickFrequency="1" TickPlacement="None" IsMoveToPointEnabled="True">
+                    <Slider.Value>
+                        <Binding ElementName="MediaElementSelectedMedia" Path="Position" Converter="{StaticResource ConvertPosition}" 
+                                 Mode="OneWayToSource"/>
+                    </Slider.Value>
+                </Slider>
+                <StackPanel Orientation="Horizontal" Margin="20,5,20,5">
+                    <Button Width="30" Height="30" Margin="5,0" Name="ButtonStop" Click="ButtonStop_Click">
+                        <Path Width="8" Height="10" Stretch="Fill" StrokeLineJoin="Round" Stroke="#FF000000" Fill="#FF424040" Data="F1 M 320.001,191.918L 327.834,191.918L 327.834,200.585L 320.041,200.585L 320.001,191.918 Z "/>
+                    </Button>
+                    <Button Width="30" Height="30" Margin="5,0" Name="ButtonPrev" Click="ButtonPrev_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <Path Width="1" Height="10" Stretch="Fill" StrokeLineJoin="Round" Stroke="#FF000000" Data="F1 M 352.001,191.751L 352.001,207.585"/>
+                            <Path Width="8" Height="10" Stretch="Fill" StrokeLineJoin="Round" Stroke="#FF000000" Fill="#FF424040" Data="F1 M 320.167,199.918L 336.001,191.918L 336.001,207.918L 320.167,199.918 Z "/>
+                        </StackPanel>
+                    </Button>
+                    <Button Width="30" Height="30" Margin="5,0" Name="ButtonBackward" Click="ButtonBackward_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <Path Width="1" Height="10" Stretch="Fill" StrokeLineJoin="Round" Stroke="#FF000000" Data="F1 M 352.001,191.751L 352.001,207.585"/>
+                            <Path Width="8" Height="10" Stretch="Fill" Fill="#FF000000" Data="F1 M 320.001,207.96L 336.001,191.835L 336.001,224.085L 320.001,207.96 Z "/>
+                            <Path Width="8" Height="10" Stretch="Fill" Fill="#FF000000" Data="F1 M 335.917,208.044L 352.001,191.835L 351.917,224.085L 335.917,208.044 Z "/>
+                        </StackPanel>
+                    </Button>
+                    <!--<Button Width="30" Height="30" Margin="5,0" Name="ButtonPlayPause" Click="ButtonPlayPause_Click">
+                        <Path Width="12" Height="15" Stretch="Fill" Fill="#FF000000" Data="F1 M 352.17,191.918L 384.667,207.876L 352.001,224.085L 352.17,191.918 Z "/>
+                    </Button>-->
+                    <ToggleButton Width="30" Height="30" Margin="5,0" Name="ButtonPlayPause"
+                                  Checked="ButtonPlayPause_Checked" Unchecked="ButtonPlayPause_Unchecked">
+                        <Path Width="12" Height="15" Stretch="Fill" Fill="#FF000000" Data="F1 M 352.17,191.918L 384.667,207.876L 352.001,224.085L 352.17,191.918 Z "/>
+                    </ToggleButton>
+                    <Button Width="30" Height="30" Margin="5,0" Name="ButtonFastForward" Click="ButtonFastForward_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <Path Width="8" Height="10" Stretch="Fill" StrokeLineJoin="Round" Stroke="#FF000000" Fill="#FF424040" Data="F1 M 352.001,199.772L 336.001,191.752L 336.001,207.752L 352.001,199.772 Z "/>
+                            <Path Width="8" Height="10" Stretch="Fill" StrokeLineJoin="Round" Stroke="#FF000000" Fill="#FF424040" Data="F1 M 335.917,199.772L 320.001,191.793L 320.084,207.752L 335.917,199.772 Z "/>
+                            <Path Width="1" Height="10" Stretch="Fill" StrokeLineJoin="Round" Stroke="#FF000000" Data="F1 M 352.001,191.751L 352.001,207.585"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Width="30" Height="30" Margin="5,0" Name="ButtonNext" Click="ButtonNext_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <Path Width="8" Height="10" Stretch="Fill" StrokeLineJoin="Round" Stroke="#FF000000" Fill="#FF424040" Data="F1 M 352.001,199.772L 336.001,191.752L 336.001,207.752L 352.001,199.772 Z "/>
+                            <Path Width="1" Height="10" Stretch="Fill" StrokeLineJoin="Round" Stroke="#FF000000" Data="F1 M 352.001,191.751L 352.001,207.585"/>
+                        </StackPanel>
+                    </Button>
+                    <Slider Width="100" Margin="5,0" VerticalAlignment="Center" Name="SliderVolume" Maximum="100" AutoToolTipPlacement="TopLeft" TickFrequency="10" TickPlacement="BottomRight">
+                        <Slider.Value>
+                            <Binding ElementName="MediaElementSelectedMedia" Path="Volume" Converter="{StaticResource ConvertVolume}"/>
+                        </Slider.Value>
+                    </Slider>
+                </StackPanel>
+            </StackPanel>
+
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Button Width="70" Height="25" Name="ButtonCopyFiles" Click="ButtonCopyFiles_Click">Copy</Button>
+                <Button Width="70" Height="25" Grid.Column="1" Name="ButtonCut" Click="ButtonCut_Click">Cut</Button>
+            </Grid>
+
+            <Grid Grid.Row="3" Margin="5">
+                <GroupBox>
+                    <GroupBox.Header>
+                        <TextBlock FontWeight="Bold" Margin="2,0">If same file name already exists</TextBlock>
+                    </GroupBox.Header>
+
+                    <StackPanel Orientation="Horizontal">
+                        <RadioButton Margin="10" Name="RadioButtonRename">Rename</RadioButton>
+                        <RadioButton Margin="10" Name="RadioButtonReplace">Replace</RadioButton>
+                        <RadioButton Margin="10" Name="RadioButtonIgnore">Ignore</RadioButton>
+                    </StackPanel>
+                </GroupBox>
+            </Grid>
+
+            <Grid Grid.Row="4">
+                <MediaElement Visibility="Collapsed" Name="MediaElementSelectedMedia" LoadedBehavior="Manual" Volume="0.5" MediaEnded="MediaElementSelectedMedia_MediaEnded" MediaOpened="MediaElementSelectedMedia_MediaOpened"></MediaElement>
+            </Grid>
+        </Grid>
+
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <StackPanel Orientation="Horizontal">
+                <TextBlock FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="15,0,5,0">Search:</TextBlock>
+                <TextBox VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="5,0,5,0" Name="TextBoxSearch" MinWidth="200" TextChanged="TextBoxSearch_TextChanged"></TextBox>
+            </StackPanel>
+
+            <ListView VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Recycling"
+                Grid.Row="1" Margin="10" Name="ListViewFiles" Background="LightGray" IsSynchronizedWithCurrentItem="True">
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="Padding" Value="0,3"/>
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                        <EventSetter Event="MouseDoubleClick" Handler="PlayCurrentSelectedItem"/>
+                    </Style>
+                </ListView.ItemContainerStyle>
+                <ListView.ItemsSource>
+                    <Binding />
+                </ListView.ItemsSource>
+                <ListView.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Check All" Name="ListViewMenuItemCheckAll" Click="ListViewMenuItemCheckAll_Click"/>
+                        <MenuItem Header="Check All Selected" Name="ListViewMenuItemCheckAllSelected" Click="ListViewMenuItemCheckAllSelected_Click"/>
+                        <Separator/>
+                        <MenuItem Header="Clear All" Name="ListViewMenuItemClearAll" Click="ListViewMenuItemClearAll_Click"/>
+                        <MenuItem Header="Clear All Selected" Name="ListViewMenuItemClearAllSelected" Click="ListViewMenuItemClearAllSelected_Click"/>
+                    </ContextMenu>
+                </ListView.ContextMenu>
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn>
+                            <GridViewColumn.Header>
+                                <TextBlock FontWeight="Bold" Padding="120,0"
+                                           HorizontalAlignment="Stretch" Name="TextBlockHeaderFileName">File Name</TextBlock>
+                            </GridViewColumn.Header>
+
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                        <Image Width="16" Height="16">
+                                            <Image.Source>
+                                                <Binding Path="FilePath" Converter="{StaticResource ConvertToImage}"/>
+                                            </Image.Source>
+                                        </Image>
+                                        <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" Padding="5,0" Width="260">
+                                            <TextBlock.Text>
+                                                <Binding Path="FilePath" Converter="{StaticResource ConvertToFileName}"/>
+                                            </TextBlock.Text>
+                                            <TextBlock.ToolTip>
+                                                <Binding Path="FilePath"/>
+                                            </TextBlock.ToolTip>
+                                            <TextBlock.MaxWidth>
+                                                <Binding ElementName="TextBlockHeaderFileName" Path="Width"/>
+                                            </TextBlock.MaxWidth>
+                                        </TextBlock>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+
+                        <GridViewColumn>
+                            <GridViewColumn.Header>
+                                <TextBlock FontWeight="Bold" Padding="15,0"
+                                           HorizontalAlignment="Stretch">Select</TextBlock>
+                            </GridViewColumn.Header>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Grid HorizontalAlignment="Center">
+                                        <CheckBox>
+                                            <CheckBox.IsChecked>
+                                                <Binding Path="Selected"/>
+                                            </CheckBox.IsChecked>
+                                        </CheckBox>
+                                    </Grid>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </Grid>
+
+        <StatusBar Grid.Row="1" Grid.ColumnSpan="2">
+            <TextBlock Name="TextBlockStatus" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+            <TextBlock Name="TextBlockCurrentFile" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+        </StatusBar>
+    </Grid>
+</Window>
