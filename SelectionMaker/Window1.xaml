@@ -155,7 +155,7 @@
 
             <StackPanel Orientation="Horizontal">
                 <TextBlock FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="15,0,5,0">Search:</TextBlock>
-                <TextBox VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="5,0,5,0" Name="TextBoxSearch" MinWidth="200" TextChanged="TextBoxSearch_TextChanged"></TextBox>
+                <TextBox VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="5,0,5,0" Name="TextBoxSearch" MinWidth="300" TextChanged="TextBoxSearch_TextChanged"></TextBox>
             </StackPanel>
 
             <ListView VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Recycling"
